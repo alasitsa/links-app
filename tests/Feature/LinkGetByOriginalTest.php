@@ -28,8 +28,8 @@ class LinkGetByOriginalTest extends TestCase
     public static function linksProvider(): array
     {
         return [
-            ["https://youtube.com", "yt", 1],
-            ["https://github.com", "gh", 1]
+            ["https://youtube.com", "ytTEST", 1],
+            ["https://github.com", "ghTEST", 1]
         ];
     }
 }

@@ -28,8 +28,8 @@ class LinkPatchTest extends TestCase
     public static function linkProvider(): array
     {
         return [
-            ["https://youtube.com", "yt", "https://google.com", 1],
-            ["https://github.com", "gh", "https://gmail.com", 1]
+            ["https://youtube.com", "ytTEST", "https://google.com", 1],
+            ["https://github.com", "ghTEST", "https://gmail.com", 1]
         ];
     }
 }

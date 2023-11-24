@@ -29,8 +29,8 @@ class LinkExistsAction
         }
 
         if ($original && $userId) {
-            $link = $this->linkRepository->getByOriginalLink($original); // if user already created this original
-            if ($link && $link->userId = $userId) {
+            $link = $this->linkRepository->getByOriginalLink($original, $userId); // if user already created this original
+            if ($link) {
                 return true;
             }
         }
