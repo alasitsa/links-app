@@ -30,7 +30,7 @@ class LinkRepository implements ILinkRepository
      */
     public function get(int $id): ?Link
     {
-        return Link::find($id);
+        return Link::with('user')->find($id);
     }
 
     /**
@@ -38,7 +38,7 @@ class LinkRepository implements ILinkRepository
      */
     public function getAll(): Collection
     {
-        return Link::all();
+        return Link::with('user')->get();
     }
 
     /**
@@ -57,7 +57,7 @@ class LinkRepository implements ILinkRepository
      */
     public function getByOriginalLink(string $original, ?int $userId = null): ?Link
     {
-        $link = Link::where('original', $original);
+        $link = Link::with('user')->where('original', $original);
         if ($userId) {
             $link = $link->where('user_id', $userId);
         }

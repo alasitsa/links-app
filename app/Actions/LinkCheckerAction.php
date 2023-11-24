@@ -21,22 +21,22 @@ class LinkCheckerAction
     }
 
     /**
-     * @param string $original
+     * @param string|null $original
      * @param string|null $slug
-     * @param int $userId
+     * @param int|null $userId
      *
      * @return bool
      *
      * @throws LinkExistsException
      * @throws LinkUnsafeException
      */
-    public function __invoke(string $original, ?string $slug, int $userId): bool
+    public function __invoke(?string $original, ?string $slug, ?int $userId): bool
     {
         if (($this->linkExistsAction)($original, $slug, $userId)) {
             throw new LinkExistsException();
         }
 
-        if (!($this->linkSafeAction)($original)) {
+        if ($original && !($this->linkSafeAction)($original)) {
             throw new LinkUnsafeException();
         }
 

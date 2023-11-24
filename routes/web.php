@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +22,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => IsAdmin::class, 'prefix' => '/admin'], function() {
+    Route::any('/update/{id}', [AdminController::class, 'update'])->name('admin-update');
+    Route::get('/delete/{id}', [AdminController::class, 'delete'])->name('admin-delete');
+    Route::get('/', [AdminController::class, 'getAll'])->name('admin');
+});

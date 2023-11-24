@@ -6,6 +6,7 @@ use App\Repositories\Interfaces\ILinkRepository;
 use App\Repositories\LinkRepository;
 use App\Services\Interfaces\ILinkService;
 use App\Services\LinkService;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::if('admin', function() {
+            $user = auth()->user();
+            return $user && $user->hasRole('admin');
+        });
     }
 }

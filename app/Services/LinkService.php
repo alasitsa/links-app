@@ -45,9 +45,9 @@ class LinkService implements ILinkService
 
     /**
      * @param int $id
-     * @return Link
+     * @return Link|null
      */
-    public function get(int $id): Link
+    public function get(int $id): ?Link
     {
         return $this->linkRepository->get($id);
     }

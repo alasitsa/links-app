@@ -50,8 +50,13 @@
                                 </li>
                             @endif
                         @else
+                            @admin
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger" href="{{ route('admin') }}">{{ __('Admin panel') }}</a>
+                                </li>
+                            @endadmin
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
 
