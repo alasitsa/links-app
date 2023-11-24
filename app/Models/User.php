@@ -65,4 +65,12 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function links(): BelongsToMany
+    {
+        return $this->belongsToMany(Link::class, 'users_links');
+    }
 }
