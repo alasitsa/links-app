@@ -59,7 +59,7 @@ class LinkRepository implements ILinkRepository
     {
         $link = Link::where('original', $original);
         if ($userId) {
-            $link = $link->andWhere('user_id', $userId);
+            $link = $link->where('user_id', $userId);
         }
         $link = $link->first();
         return $link;
