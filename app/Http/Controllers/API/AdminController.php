@@ -1,17 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Actions\LinkCheckerAction;
 use App\Exceptions\LinkExistsException;
-use App\Exceptions\LinkForbidden;
 use App\Exceptions\LinkNotExistException;
 use App\Exceptions\LinkUnsafeException;
-use App\Models\Link;
+use App\Http\Controllers\Controller;
 use App\Services\AdminLinkService;
-use App\Services\Interfaces\ILinkService;
-use App\Services\UserLinkService;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -29,11 +25,11 @@ class AdminController extends Controller
     }
 
     /**
-     * @return Response
+     * @return JsonResponse
      */
-    public function getAll(): Response
+    public function getAll(): JsonResponse
     {
-        return response()->view("home", [
+        return response()->json([
             "links" => $this->linkService->getAll(),
         ]);
     }
@@ -41,20 +37,14 @@ class AdminController extends Controller
     /**
      * @param int $id
      * @param Request $request
-     * @return Response|RedirectResponse
+     * @return JsonResponse
      */
-    public function patch(Request $request, int $id): Response|RedirectResponse
+    public function patch(Request $request, int $id): JsonResponse
     {
         try {
-            $link = $this->linkService->get($id);
+            $this->linkService->get($id);
         } catch (LinkNotExistException $e) {
             abort(404, $e->getMessage());
-        }
-
-        if ($request->isMethod('get')) {
-            return response('admin.patch', [
-                'link' => $link
-            ]);
         }
 
         try {
@@ -62,14 +52,14 @@ class AdminController extends Controller
         } catch (LinkExistsException|LinkUnsafeException $e) {
             abort(422, $e->getMessage());
         }
-        return response()->redirectTo('admin.home');
+        return response()->json("success");
     }
 
     /**
      * @param int $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function delete(int $id): RedirectResponse
+    public function delete(int $id): JsonResponse
     {
         try {
             $this->linkService->get($id);
@@ -77,6 +67,6 @@ class AdminController extends Controller
         } catch (LinkNotExistException $e) {
             abort(404, $e->getMessage());
         }
-        return redirect('home');
+        return response()->json("success");
     }
 }

@@ -33,6 +33,8 @@ class LinkCheckerTest extends TestCase
     public function testCreate(string $original, string $slug, int $userId): void
     {
         $this->linkRepository->create($original, $slug, $userId);
+        $link = $this->linkRepository->getBySlug($slug);
+        $this->assertEquals($slug, $link->slug);
     }
 
     /**

@@ -27,7 +27,7 @@ Route::any('/patch/{id?}', [HomeController::class, 'patch'])->name('patch');
 Route::get('/delete/{id}', [HomeController::class, 'delete'])->name('delete');
 Route::get('/home', [HomeController::class, 'getAll'])->name('home');
 
-Route::group(['middleware' => IsAdmin::class, 'prefix' => '/admin'], function() {
+Route::group(['middleware' => 'admin:web', 'prefix' => '/admin'], function() {
     Route::any('/patch/{id}', [AdminController::class, 'patch'])->name('admin-patch');
     Route::get('/delete/{id}', [AdminController::class, 'delete'])->name('admin-delete');
     Route::get('/', [AdminController::class, 'getAll'])->name('admin');

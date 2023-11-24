@@ -3,10 +3,9 @@
 namespace App\Services;
 
 use App\Actions\LinkCheckerAction;
-use App\Actions\LinkSafeAction;
-use App\Actions\LinkExistsAction;
 use App\Actions\LinkHasherAction;
 use App\Exceptions\LinkExistsException;
+use App\Exceptions\LinkForbidden;
 use App\Exceptions\LinkNotExistException;
 use App\Exceptions\LinkUnsafeException;
 use App\Models\Link;
@@ -14,7 +13,7 @@ use App\Repositories\Interfaces\ILinkRepository;
 use App\Services\Interfaces\ILinkService;
 use Illuminate\Database\Eloquent\Collection;
 
-class LinkService implements ILinkService
+class UserLinkService implements ILinkService
 {
     private ILinkRepository $linkRepository;
     private LinkHasherAction $linkHasherAction;
@@ -33,30 +32,22 @@ class LinkService implements ILinkService
     }
 
     /**
-     * @param string $original
-     * @param string|null $slug
-     * @param int $userId
-     * @return void
-     * @throws LinkExistsException
-     * @throws LinkUnsafeException
-     */
-    public function create(int $userId, string $original, ?string $slug = null): void
-    {
-        if (!$slug) {
-            $slug = ($this->linkHasherAction)($original);
-        }
-
-        ($this->linkCheckerAction)($original, $slug, $userId);
-        $this->linkRepository->create($original, $slug, $userId);
-    }
-
-    /**
      * @param int $id
      * @return Link|null
+     * @throws LinkForbidden
+     * @throws LinkNotExistException
      */
     public function get(int $id): ?Link
     {
-        return $this->linkRepository->get($id);
+        $link = $this->linkRepository->get($id);
+        if (!$link) {
+            throw new LinkNotExistException();
+        }
+
+        if ($link->user_id != auth()->user()->id) {
+            throw new LinkForbidden();
+        }
+        return $link;
     }
 
     /**
@@ -64,31 +55,24 @@ class LinkService implements ILinkService
      */
     public function getAll(): Collection
     {
-        return $this->linkRepository->getAll();
+        return $this->linkRepository->getByUser(auth()->user()->id);
     }
 
     /**
-     * @param int $userId
-     * @return Collection
-     */
-    public function getByUser(int $userId): Collection
-    {
-        return $this->linkRepository->getByUser($userId);
-    }
-
-    /**
-     * @param int $id
+     * @param int|null $id
      * @param string|null $original
      * @param string|null $slug
-     * @param int|null $userId
      * @return void
      * @throws LinkUnsafeException
      * @throws LinkExistsException
      */
-    public function patch(int $id, ?string $original = null, ?string $slug = null, ?int $userId = null): void
+    public function patch(?int $id = null, ?string $original = null, ?string $slug = null): void
     {
+        $userId = auth()->user()->id;
         ($this->linkCheckerAction)($original, $slug, $userId);
-        $this->linkRepository->patch($id, $original, $slug, $userId);
+        $id
+            ? $this->linkRepository->patch(id: $id, original: $original, slug: $slug)
+            : $this->linkRepository->create(original: $original, slug: $slug ?? ($this->linkHasherAction)($original), userId: $userId);
     }
 
     /**
@@ -98,19 +82,5 @@ class LinkService implements ILinkService
     public function delete(int $id): void
     {
         $this->linkRepository->delete($id);
-    }
-
-    /**
-     * @param string $slug
-     * @return string|null
-     * @throws LinkNotExistException
-     */
-    public function getBySlug(string $slug): ?string
-    {
-        $link = $this->linkRepository->getBySlug($slug);
-        if (!$link) {
-            throw new LinkNotExistException();
-        }
-        return $link->original;
     }
 }

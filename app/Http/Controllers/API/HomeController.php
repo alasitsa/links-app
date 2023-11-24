@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Exceptions\LinkExistsException;
 use App\Exceptions\LinkForbidden;
 use App\Exceptions\LinkNotExistException;
 use App\Exceptions\LinkUnsafeException;
+use App\Http\Controllers\Controller;
 use App\Services\UserLinkService;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -25,11 +26,11 @@ class HomeController extends Controller
     }
 
     /**
-     * @return Response
+     * @return JsonResponse
      */
-    public function getAll(): Response
+    public function getAll(): JsonResponse
     {
-        return response()->view("home", [
+        return response()->json([
             "links" => $this->linkService->getAll(),
         ]);
     }
@@ -37,25 +38,18 @@ class HomeController extends Controller
     /**
      * @param int|null $id
      * @param Request $request
-     * @return Response|RedirectResponse
+     * @return JsonResponse
      */
-    public function patch(Request $request, ?int $id = null): Response|RedirectResponse
+    public function patch(Request $request, ?int $id = null): JsonResponse
     {
-        $link = null;
         if ($id) {
             try {
-                $link = $this->linkService->get($id);
+                $this->linkService->get($id);
             } catch (LinkNotExistException $e) {
                 abort(404, $e->getMessage());
             } catch (LinkForbidden $e) {
                 abort(403, $e->getMessage());
             }
-        }
-
-        if ($request->isMethod('get')) {
-            return response('patch', [
-                'link' => $link
-            ]);
         }
 
         try {
@@ -67,14 +61,14 @@ class HomeController extends Controller
         } catch (LinkExistsException|LinkUnsafeException $e) {
             abort(422, $e->getMessage());
         }
-        return response()->redirectTo('home');
+        return response()->json("success");
     }
 
     /**
      * @param int $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function delete(int $id): RedirectResponse
+    public function delete(int $id): JsonResponse
     {
         try {
             $this->linkService->get($id);
@@ -84,6 +78,6 @@ class HomeController extends Controller
         } catch (LinkNotExistException $e) {
             abort(404, $e->getMessage());
         }
-        return redirect('home');
+        return response()->json("success");
     }
 }
