@@ -2,6 +2,9 @@
 
 namespace App\Services\Interfaces;
 
+use App\Exceptions\LinkExistsException;
+use App\Exceptions\LinkNotExistException;
+use App\Exceptions\LinkUnsafeException;
 use App\Models\Link;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -12,6 +15,8 @@ interface ILinkService
      * @param string|null $slug
      * @param int $userId
      * @return void
+     * @throws LinkExistsException
+     * @throws LinkUnsafeException
      */
     public function create(int $userId, string $original, ?string $slug = null): void;
 
@@ -39,6 +44,8 @@ interface ILinkService
      * @param string|null $slug
      * @param int|null $userId
      * @return void
+     * @throws LinkExistsException
+     * @throws LinkUnsafeException
      */
     public function patch(int $id, ?string $original = null, ?string $slug = null, ?int $userId = null): void;
 
@@ -47,4 +54,11 @@ interface ILinkService
      * @return void
      */
     public function delete(int $id): void;
+
+    /**
+     * @param string $slug
+     * @return string|null
+     * @throws LinkNotExistException
+     */
+    public function getBySlug(string $slug): ?string;
 }

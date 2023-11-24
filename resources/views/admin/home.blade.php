@@ -20,8 +20,8 @@
                             <td>{{ $link->original }}</td>
                             <td>{{ $link->slug }}</td>
                             <td>{{ $link->user->email }}</td>
-                            <td><a href="{{ url("/" . $link->slug) }}"></a></td>
-                            <td><a href="{{ route("admin-update", [ $link->id ]) }}">{{ __('Edit') }}</a></td>
+                            <td><a href="{{ url("/" . $link->slug) }}">{{ url("/" . $link->slug) }}</a></td>
+                            <td><a href="{{ route("admin-patch", [ $link->id ]) }}">{{ __('Edit') }}</a></td>
                             <td><a href="{{ route("admin-delete", [ $link->id ]) }}">{{ __('Delete') }}</a></td>
                         </tr>
                     @endforeach

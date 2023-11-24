@@ -14,15 +14,19 @@ use Illuminate\Http\Response;
 class AdminController extends Controller
 {
     private ILinkService $linkService;
-    private LinkCheckerAction $linkCheckerAction;
 
-    public function __construct(ILinkService $linkService, LinkCheckerAction $linkCheckerAction)
+    /**
+     * @param ILinkService $linkService
+     */
+    public function __construct(ILinkService $linkService)
     {
         $this->middleware('auth');
         $this->linkService = $linkService;
-        $this->linkCheckerAction = $linkCheckerAction;
     }
 
+    /**
+     * @return Response
+     */
     public function getAll(): Response
     {
         $links = $this->linkService->getAll();
@@ -31,30 +35,39 @@ class AdminController extends Controller
         ]);
     }
 
-    public function update(int $id, Request $request): Response|RedirectResponse {
+    /**
+     * @param int $id
+     * @param Request $request
+     * @return Response|RedirectResponse
+     */
+    public function patch(int $id, Request $request): Response|RedirectResponse
+    {
         $link = $this->linkService->get($id);
         if (!$link) {
             abort(404);
         }
 
         if ($request->isMethod('get')) {
-            return response()->view('admin.update', ["link" => $link]);
+            return response()->view('admin.patch', ["link" => $link]);
         }
 
         $original = $request->original;
         $slug = $request->slug;
 
         try {
-            ($this->linkCheckerAction)($original, $slug, $link->user_id);
             $this->linkService->patch($id, original: $original, slug: $slug);
             return redirect('admin');
-        }
-        catch (LinkExistsException|LinkUnsafeException $e) {
+        } catch (LinkExistsException|LinkUnsafeException $e) {
             abort(422, $e->getMessage());
         }
     }
 
-    public function delete(int $id): RedirectResponse {
+    /**
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function delete(int $id): RedirectResponse
+    {
         $link = $this->linkService->get($id);
         if (!$link) {
             abort(404);

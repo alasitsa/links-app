@@ -60,4 +60,10 @@ interface ILinkRepository
      * @return bool
      */
     public function slugExists(string $slug): bool;
+
+    /**
+     * @param string $slug
+     * @return Link|null
+     */
+    public function getBySlug(string $slug): ?Link;
 }

@@ -47,7 +47,7 @@ class LinkRepository implements ILinkRepository
      */
     public function getByUser(int $userId): Collection
     {
-        return Link::where('user_id', $userId);
+        return Link::where('user_id', $userId)->get();
     }
 
     /**
@@ -107,5 +107,14 @@ class LinkRepository implements ILinkRepository
     public function slugExists(string $slug): bool
     {
         return Link::where('slug', $slug)->exists();
+    }
+
+    /**
+     * @param string $slug
+     * @return Link|null
+     */
+    public function getBySlug(string $slug): ?Link
+    {
+        return Link::where('slug', $slug)->first();
     }
 }
