@@ -3,26 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\LinkNotExistException;
+use App\Repositories\Interfaces\ILinkRepository;
 use App\Services\Interfaces\ILinkService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class RedirectController extends Controller
 {
-    private ILinkService $linkService;
+    private ILinkRepository $linkRepository;
 
-    public function __construct(ILinkService $linkService)
+    public function __construct(ILinkRepository $linkRepository)
     {
-        $this->linkService = $linkService;
+        $this->linkRepository = $linkRepository;
     }
 
     public function index(string $route): RedirectResponse {
-        try {
-            $original = $this->linkService->getBySlug($route);
-            return response()->redirectTo($original);
+        $link = $this->linkRepository->getBySlug($route);
+        if ($link?->original) {
+            return response()->redirectTo($link->original);
         }
-        catch (LinkNotExistException $e) {
-            abort(404, $e->getMessage());
-        }
+        abort(404);
     }
 }
