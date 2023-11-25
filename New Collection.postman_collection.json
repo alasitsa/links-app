@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "08d98e45-592f-439f-974c-57aca2167e89",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6292404"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/login?email=doe@gmail.com&password=password&token_name=name",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "doe@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "password"
+						},
+						{
+							"key": "token_name",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin home",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/admin",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin patch",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/admin/patch/1?original=https://youtube.com",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						"admin",
+						"patch",
+						"1"
+					],
+					"query": [
+						{
+							"key": "original",
+							"value": "https://youtube.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/admin/delete/1",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						"admin",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "home",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/patch?original=https://github.com",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						"patch"
+					],
+					"query": [
+						{
+							"key": "original",
+							"value": "https://github.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/patch/1?original=https://gmail.com",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						"patch",
+						"1"
+					],
+					"query": [
+						{
+							"key": "original",
+							"value": "https://gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}{{prefix}}/delete/1",
+					"host": [
+						"{{host}}{{prefix}}"
+					],
+					"path": [
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "prefix",
+			"value": "/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "6|PleF2OWV9Q7ZToHIk5WXrvDPLjaiVBxBvOXFTHiT423dfd57",
+			"type": "string"
+		},
+		{
+			"key": "host",
+			"value": "localhost:8000",
+			"type": "string"
+		}
+	]
+}
