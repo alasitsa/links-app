@@ -28,7 +28,7 @@ class AdminController extends Controller
      */
     public function getAll(): Response
     {
-        return response()->view("home", [
+        return response()->view("admin.home", [
             "links" => $this->linkService->getAll(),
         ]);
     }
@@ -47,7 +47,7 @@ class AdminController extends Controller
         }
 
         if ($request->isMethod('get')) {
-            return response('admin.patch', [
+            return response()->view('admin.patch', [
                 'link' => $link
             ]);
         }

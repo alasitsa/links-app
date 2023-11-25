@@ -13,14 +13,12 @@ class IsAdmin
      *
      * @param Closure(Request): (Response) $next
      */
-    public function handle(Request $request, Closure $next, $type): Response
+    public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
         if ($user && $user->hasRole('admin')) {
             return $next($request);
         }
-        return $type == 'api' ?
-            response()->json(['error' => 'You have not admin access'])->setStatusCode(403):
-            redirect('home')->with('error','You have not admin access')->setStatusCode(403);
+        return redirect('home')->with('error', 'You have not admin access')->setStatusCode(403);
     }
 }

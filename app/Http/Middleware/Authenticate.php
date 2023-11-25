@@ -20,8 +20,12 @@ class Authenticate extends Middleware
     public function handle($request, Closure $next, ...$guards)
     {
         if (isset($guards[0]) && $guards[0] == 'sanctum') {
-            return response()->json(['error' => 'Unauthorized'])->setStatusCode(401);
+            try {
+                return parent::handle($request, $next, ...$guards);
+            } catch (AuthenticationException $e) {
+                return response()->json(['error' => 'Unauthorized'])->setStatusCode(401);
+            }
         }
-        return parent::handle($request, $next, $guards);
+        return parent::handle($request, $next, ...$guards);
     }
 }

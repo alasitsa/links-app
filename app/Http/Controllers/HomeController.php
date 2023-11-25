@@ -53,7 +53,7 @@ class HomeController extends Controller
         }
 
         if ($request->isMethod('get')) {
-            return response('patch', [
+            return response()->view('patch', [
                 'link' => $link
             ]);
         }
