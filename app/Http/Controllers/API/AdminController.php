@@ -6,10 +6,9 @@ use App\Exceptions\LinkExistsException;
 use App\Exceptions\LinkNotExistException;
 use App\Exceptions\LinkUnsafeException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LinkRequest;
 use App\Services\AdminLinkService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class AdminController extends Controller
 {
@@ -35,11 +34,11 @@ class AdminController extends Controller
     }
 
     /**
+     * @param LinkRequest $request
      * @param int $id
-     * @param Request $request
      * @return JsonResponse
      */
-    public function patch(Request $request, int $id): JsonResponse
+    public function patch(LinkRequest $request, int $id): JsonResponse
     {
         try {
             $this->linkService->get($id);

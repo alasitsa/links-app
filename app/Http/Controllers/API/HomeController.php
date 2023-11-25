@@ -7,10 +7,9 @@ use App\Exceptions\LinkForbidden;
 use App\Exceptions\LinkNotExistException;
 use App\Exceptions\LinkUnsafeException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LinkRequest;
 use App\Services\UserLinkService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class HomeController extends Controller
 {
@@ -36,11 +35,11 @@ class HomeController extends Controller
     }
 
     /**
+     * @param LinkRequest $request
      * @param int|null $id
-     * @param Request $request
      * @return JsonResponse
      */
-    public function patch(Request $request, ?int $id = null): JsonResponse
+    public function patch(LinkRequest $request, ?int $id = null): JsonResponse
     {
         if ($id) {
             try {

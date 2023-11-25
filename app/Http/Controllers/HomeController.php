@@ -6,9 +6,9 @@ use App\Exceptions\LinkExistsException;
 use App\Exceptions\LinkForbidden;
 use App\Exceptions\LinkNotExistException;
 use App\Exceptions\LinkUnsafeException;
+use App\Http\Requests\LinkRequest;
 use App\Services\UserLinkService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class HomeController extends Controller
@@ -35,11 +35,11 @@ class HomeController extends Controller
     }
 
     /**
+     * @param LinkRequest $request
      * @param int|null $id
-     * @param Request $request
      * @return Response|RedirectResponse
      */
-    public function patch(Request $request, ?int $id = null): Response|RedirectResponse
+    public function patch(LinkRequest $request, ?int $id = null): Response|RedirectResponse
     {
         $link = null;
         if ($id) {

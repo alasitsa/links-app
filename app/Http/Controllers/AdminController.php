@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\LinkCheckerAction;
 use App\Exceptions\LinkExistsException;
-use App\Exceptions\LinkForbidden;
 use App\Exceptions\LinkNotExistException;
 use App\Exceptions\LinkUnsafeException;
-use App\Models\Link;
+use App\Http\Requests\LinkRequest;
 use App\Services\AdminLinkService;
-use App\Services\Interfaces\ILinkService;
-use App\Services\UserLinkService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class AdminController extends Controller
@@ -39,11 +34,11 @@ class AdminController extends Controller
     }
 
     /**
+     * @param LinkRequest $request
      * @param int $id
-     * @param Request $request
      * @return Response|RedirectResponse
      */
-    public function patch(Request $request, int $id): Response|RedirectResponse
+    public function patch(LinkRequest $request, int $id): Response|RedirectResponse
     {
         try {
             $link = $this->linkService->get($id);
